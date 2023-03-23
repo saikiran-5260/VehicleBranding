@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BusinessLL.DTOS;
+using DomainLL.DomainLayer;
+using DomainLL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +11,10 @@ namespace BusinessLL.BusinessLogic
 {
     public interface IVehicleService
     {
+        VehicleModelDTO CreateVehicle(VehicleModelDTO model);
+        VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id);
+        VehicleColorMappingDTO CreateVehicleMapping(VehicleColorMappingDTO model);
+        VehicleColorMappingDTO UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id);
 
     }
 }
