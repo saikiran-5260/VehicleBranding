@@ -57,6 +57,24 @@ namespace BusinessLL.BusinessLogic
             return (_mapper.Map<VehicleColorMappingDTO>(createdVehicleColorMap));
         }
 
+        public List<VehicleDetailsDTO> GetVehicleDetails()
+        {
+            var vehicleDetails = _VR.GetVehicleDetails();
+            return (_mapper.Map<List<VehicleDetailsDTO>>(vehicleDetails));
+        }
+
+        public List<VehicleDetailsDTO> GetVehicleDetailsByChassisNumber(string ChassisNumber)
+        {
+            var getVehicleByChasssiNum = _VR.GetVehicleDetailsByChassisNumber(ChassisNumber);
+            return (_mapper.Map<List<VehicleDetailsDTO>>(getVehicleByChasssiNum));
+        }
+
+        public List<VehicleDetailsDTO> GetVehicleDetailsById(int id)
+        {
+            var vehicleById = _VR.GetVehicleDetailsById(id);
+            return (_mapper.Map<List<VehicleDetailsDTO>>(vehicleById));
+        }
+
         public VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id)
         {
             

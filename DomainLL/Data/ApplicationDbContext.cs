@@ -17,6 +17,7 @@ namespace DomainLL.Data
         }
         public DbSet<VehicleModel> Vehicle { get; set; }
         public DbSet<VehicleColorMapping> VehicleColorMapping { get; set; }
+        public DbSet<VehicleDetails> vehicleDetails { get; set; }
 
     }
 }

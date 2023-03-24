@@ -1,5 +1,6 @@
 ﻿using DomainLL.Data;
 using DomainLL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,25 @@ namespace DomainLL.DomainLayer
             _db.Add(model);
             _db.SaveChanges();
             return model;
+        }
+
+        public List<VehicleDetails> GetVehicleDetails()
+        {
+            List<VehicleDetails> list = _db.vehicleDetails.FromSqlRaw("getVehicleDetails").ToList();
+            return list;
+        }
+
+        public List<VehicleDetails> GetVehicleDetailsByChassisNumber(string ChassisNumber)
+        {
+            var vehicleDetailsByChassisNumber = _db.vehicleDetails.FromSqlRaw($"getVehicleByChassisNumber {ChassisNumber}").ToList();
+            return vehicleDetailsByChassisNumber;
+        }
+
+        public List<VehicleDetails> GetVehicleDetailsById(int id)
+        {
+            var vehicleDetailsById = _db.vehicleDetails.FromSqlRaw($"getVehicleById {id}").ToList();
+            return vehicleDetailsById;
+           
         }
 
         public VehicleModel UpdateVehicle(VehicleModel model, int id)
@@ -64,29 +84,21 @@ namespace DomainLL.DomainLayer
         public VehicleColorMapping UpdateVehicleColorMapping(VehicleColorMapping model, int id)
         {
             var vehicleColorMappaping = _db.VehicleColorMapping.FirstOrDefault(x=>x.ColorMappingId== id);
-            //if(vehicleColorMappaping!= null)
-            //{
-            //    vehicleColorMappaping.ColorMappingId = id;
-            //    vehicleColorMappaping.VehicleId = model.VehicleId;
-            //    vehicleColorMappaping.ColorId = model.ColorId;
-            //    vehicleColorMappaping.CreatedOn = model.CreatedOn;
-            //    vehicleColorMappaping.CreatedBy = model.CreatedBy;
-            //}
-            //else
-            //{
-            //    return null;
-            //}
-            if(vehicleColorMappaping != null)
+            if (vehicleColorMappaping != null)
             {
-                _db.Update(vehicleColorMappaping);
-                _db.SaveChanges();
-                return vehicleColorMappaping;
+                vehicleColorMappaping.ColorMappingId = id;
+                vehicleColorMappaping.VehicleId = model.VehicleId;
+                vehicleColorMappaping.ColorId = model.ColorId;
+                vehicleColorMappaping.CreatedOn = model.CreatedOn;
+                vehicleColorMappaping.CreatedBy = model.CreatedBy;
             }
             else
             {
                 return null;
             }
-           
+            _db.Update(vehicleColorMappaping);
+            _db.SaveChanges();
+            return vehicleColorMappaping;
         }
     }
 }

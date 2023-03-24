@@ -11,10 +11,12 @@ namespace BusinessLL.BusinessLogic
 {
     public interface IVehicleService
     {
+        List<VehicleDetailsDTO> GetVehicleDetailsById(int id);
+        List<VehicleDetailsDTO> GetVehicleDetailsByChassisNumber(string ChassisNumber);
+        List<VehicleDetailsDTO> GetVehicleDetails();
         VehicleModelDTO CreateVehicle(VehicleModelDTO model);
         VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id);
         VehicleColorMappingDTO CreateVehicleMapping(VehicleColorMappingDTO model);
         VehicleColorMappingDTO UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id);
-
     }
 }
