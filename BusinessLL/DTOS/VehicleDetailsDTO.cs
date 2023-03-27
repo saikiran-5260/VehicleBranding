@@ -17,6 +17,7 @@ namespace BusinessLL.DTOS
         public int MileagePerLit { get; set; }
         public int SeatCapacity { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string VehicleTypeName { get; set; }
         public string CreatedBy { get; set; }
         public string ColorName { get; set; }
         public string TransmissionName { get; set; }
