@@ -57,6 +57,12 @@ namespace BusinessLL.BusinessLogic
             return (_mapper.Map<VehicleColorMappingDTO>(createdVehicleColorMap));
         }
 
+        public string DeleteVehicleDetails(int id)
+        {
+            var deleteVehicle = _VR.DeleteVehicleDetails(id);
+            return deleteVehicle;
+        }
+
         public List<VehicleDetailsDTO> GetVehicleDetails()
         {
             var vehicleDetails = _VR.GetVehicleDetails();

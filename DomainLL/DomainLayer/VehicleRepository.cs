@@ -32,6 +32,23 @@ namespace DomainLL.DomainLayer
             return model;
         }
 
+        public string DeleteVehicleDetails(int id)
+        {
+            var deleteVehicle = _db.Vehicle.FirstOrDefault(x=>x.VehicleId== id);
+            if (deleteVehicle != null)
+            {
+                _db.Vehicle.Remove(deleteVehicle);
+                _db.SaveChanges();
+            }
+            else
+            {
+                return "not found";
+            }
+            return "deleted Successfully";
+           
+            
+        }
+
         public List<VehicleDetails> GetVehicleDetails()
         {
             List<VehicleDetails> list = _db.vehicleDetails.FromSqlRaw("getVehicleDetails").ToList();

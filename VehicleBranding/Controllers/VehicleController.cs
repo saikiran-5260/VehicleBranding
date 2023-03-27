@@ -63,7 +63,15 @@ namespace VehicleBranding.Controllers
             var putVehicle = _VS.UpdateVehicleColorMapping(modelDTO, id);
             return Ok(putVehicle);
         }
-        
-        
+        [HttpDelete]
+        [Route("DeleteVehicle")]
+        public ActionResult<string> DeleteVehicle(int id)
+        {
+            var deleteVehicle = _VS.DeleteVehicleDetails(id);
+            return Ok(deleteVehicle);
+        }
+
+
+
     }
 }

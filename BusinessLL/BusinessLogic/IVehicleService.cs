@@ -18,5 +18,7 @@ namespace BusinessLL.BusinessLogic
         VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id);
         VehicleColorMappingDTO CreateVehicleMapping(VehicleColorMappingDTO model);
         VehicleColorMappingDTO UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id);
-    }
+        string DeleteVehicleDetails(int id);
+
+    } 
 }

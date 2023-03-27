@@ -16,6 +16,6 @@ namespace DomainLL.DomainLayer
         VehicleModel UpdateVehicle(VehicleModel model,int id);
         VehicleColorMapping CreateVehicleMapping (VehicleColorMapping model);
         VehicleColorMapping UpdateVehicleColorMapping (VehicleColorMapping model,int id);
-
+        string DeleteVehicleDetails(int id);
     }
 }
