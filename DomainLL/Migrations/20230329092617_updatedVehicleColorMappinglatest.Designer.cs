@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainLL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230324102355_updatedVehicleDeatils")]
-    partial class updatedVehicleDeatils
+    [Migration("20230329092617_updatedVehicleColorMappinglatest")]
+    partial class updatedVehicleColorMappinglatest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,9 @@ namespace DomainLL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorMappingId"));
 
-                    b.Property<byte>("ColorId")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("ColorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -43,8 +44,9 @@ namespace DomainLL.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
+                    b.Property<string>("VehicleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ColorMappingId");
 
@@ -95,6 +97,10 @@ namespace DomainLL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VehicleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleTypeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

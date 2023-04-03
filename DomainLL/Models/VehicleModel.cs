@@ -18,8 +18,8 @@ namespace DomainLL.Models
         public int FuelReserveCapacity { get; set; }
         public int MileagePerLit { get; set;}
         public int SeatCapacity { get; set; }
-        public byte VehicleTypeId { get; set; }
-        public byte TransmissionId { get; set; }
+        public string VehicleTypeName { get; set; }
+        public string TransmissionName { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
     }

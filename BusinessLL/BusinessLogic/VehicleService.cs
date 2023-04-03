@@ -20,11 +20,11 @@ namespace BusinessLL.BusinessLogic
             _mapper = mapper;
         }
 
-        public VehicleModelDTO CreateVehicle(VehicleModelDTO model)
+        public int CreateVehicle(VehicleModelDTO model)
         {
             var vehicle = new VehicleModelDTO()
             {
-                VehicleId= model.VehicleId,
+                //VehicleId= model.VehicleId,
                 VehicleName= model.VehicleName,
                 VIN_Number= model.VIN_Number,
                 Engine = model.Engine,
@@ -32,29 +32,29 @@ namespace BusinessLL.BusinessLogic
                 FuelReserveCapacity= model.FuelReserveCapacity,
                 MileagePerLit= model.MileagePerLit,
                 SeatCapacity= model.SeatCapacity,
-                VehicleTypeId= model.VehicleTypeId,
-                TransmissionId= model.TransmissionId,
+                VehicleTypeName= model.VehicleTypeName,
+                TransmissionName= model.TransmissionName,
                 CreatedOn= model.CreatedOn,
                 CreatedBy= model.CreatedBy,
             };
             var newVehicle = _mapper.Map<VehicleModel>(vehicle);
-            var createdVehicle = _VR.CreateVehicle(newVehicle);
-            return (_mapper.Map<VehicleModelDTO>(createdVehicle));
+            int createdVehicle = _VR.CreateVehicle(newVehicle);
+            return createdVehicle;
         }
 
-        public VehicleColorMappingDTO CreateVehicleMapping(VehicleColorMappingDTO model)
+        public int CreateVehicleMapping(VehicleColorMappingDTO model)
         {
-            var vehicleColorMappingDTO = new VehicleColorMappingDTO()
+            var vehicleColorMapping = new VehicleColorMappingDTO()
             {
-                ColorMappingId = model.ColorMappingId,
-                VehicleId = model.VehicleId,
-                ColorId = model.ColorId,
+                VehicleName = model.VehicleName,
+                ColorName = model.ColorName,
                 CreatedOn = model.CreatedOn,
-                CreatedBy = model.CreatedBy,
+                CreatedBy = model.CreatedBy
             };
-            var newVehicleColorMapping = _mapper.Map<VehicleColorMapping>(vehicleColorMappingDTO);
-            var createdVehicleColorMap = _VR.CreateVehicleMapping(newVehicleColorMapping);
-            return (_mapper.Map<VehicleColorMappingDTO>(createdVehicleColorMap));
+
+            VehicleColorMapping newVehicleColorMapping = _mapper.Map<VehicleColorMapping>(model);
+            int createdVehicleColorMap = _VR.CreateVehicleMapping(newVehicleColorMapping);
+            return createdVehicleColorMap;
         }
 
         public string DeleteVehicleDetails(int id)
@@ -81,7 +81,7 @@ namespace BusinessLL.BusinessLogic
             return (_mapper.Map<List<VehicleDetailsDTO>>(vehicleById));
         }
 
-        public VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id)
+        public int UpdateVehicle(VehicleModelDTO model, int id)
         {
             
             //var newVehicleDTO = new VehicleModelDTO()
@@ -99,25 +99,25 @@ namespace BusinessLL.BusinessLogic
             //    CreatedBy = (model.CreatedBy)
             //};
             var Vehicle = (_mapper.Map<VehicleModel>(model));
-            var updateVehicle = _VR.UpdateVehicle(Vehicle,id);
-            return (_mapper.Map<VehicleModelDTO>(updateVehicle));
+            int updateVehicle = _VR.UpdateVehicle(Vehicle,id);
+            return (updateVehicle);
 
         }
 
-        public VehicleColorMappingDTO UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id)
+        public int UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id)
         {
 
-            var vehicleColorMappingDTO = new VehicleColorMappingDTO()
-            {
-                ColorMappingId = model.ColorMappingId,
-                VehicleId = model.VehicleId,
-                ColorId = model.ColorId,
-                CreatedOn = model.CreatedOn,
-                CreatedBy = model.CreatedBy,
-            };
-            var mapperVehicle = (_mapper.Map<VehicleColorMapping>(vehicleColorMappingDTO));
+            //var vehicleColorMappingDTO = new VehicleColorMappingDTO()
+            //{
+            //    ColorMappingId = model.ColorMappingId,
+            //    VehicleName = model.VehicleName,
+            //    ColorName = model.ColorName,
+            //    CreatedOn = model.CreatedOn,
+            //    CreatedBy = model.CreatedBy,
+            //};
+            var mapperVehicle = (_mapper.Map<VehicleColorMapping>(model));
             var updateVehicleColorMap = _VR.UpdateVehicleColorMapping(mapperVehicle,id);
-            return (_mapper.Map<VehicleColorMappingDTO>(updateVehicleColorMap));
+            return updateVehicleColorMap;
         }
     }
 }

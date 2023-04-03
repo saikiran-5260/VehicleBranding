@@ -17,19 +17,19 @@ namespace DomainLL.DomainLayer
             _db = db;
         }
 
-        public VehicleModel CreateVehicle(VehicleModel model)
+        public int CreateVehicle(VehicleModel model)
         {
-            _db.Add(model);
-            _db.SaveChanges();
-            return model;
-            
+            int createVehicle = _db.Database.ExecuteSqlRaw($"spPostVehicleDetails @VehicleName='{model.VehicleName}',@VIN_Number='{model.VIN_Number}',@Engine= '{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
+                $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
+            return createVehicle;
+                     
         }
 
-        public VehicleColorMapping CreateVehicleMapping(VehicleColorMapping model)
+        public int CreateVehicleMapping(VehicleColorMapping model)
         {
-            _db.Add(model);
-            _db.SaveChanges();
-            return model;
+
+            int vehicleColorMapping = _db.Database.ExecuteSqlRaw($"spPostVehicleColorMappingDetails @VehicleName='{model.VehicleName}',@ColorName='{model.ColorName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
+            return vehicleColorMapping;
         }
 
         public string DeleteVehicleDetails(int id)
@@ -51,71 +51,99 @@ namespace DomainLL.DomainLayer
 
         public List<VehicleDetails> GetVehicleDetails()
         {
-            List<VehicleDetails> list = _db.vehicleDetails.FromSqlRaw("getVehicleDetails").ToList();
-            return list;
+            List<VehicleDetails> list = _db.vehicleDetails.FromSqlRaw("spgetVehicleDetails").ToList();
+            if(list.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return list;
+            }
         }
 
         public List<VehicleDetails> GetVehicleDetailsByChassisNumber(string ChassisNumber)
         {
-            var vehicleDetailsByChassisNumber = _db.vehicleDetails.FromSqlRaw($"getVehicleByChassisNumber {ChassisNumber}").ToList();
-            return vehicleDetailsByChassisNumber;
+            var vehicleDetailsByChassisNumber = _db.vehicleDetails.FromSqlRaw($"spgetVehicleByChassisNumber {ChassisNumber}").ToList();
+            if (vehicleDetailsByChassisNumber.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return vehicleDetailsByChassisNumber;
+            }
         }
 
         public List<VehicleDetails> GetVehicleDetailsById(int id)
         {
-            var vehicleDetailsById = _db.vehicleDetails.FromSqlRaw($"getVehicleById {id}").ToList();
-            return vehicleDetailsById;
-           
-        }
-
-        public VehicleModel UpdateVehicle(VehicleModel model, int id)
-        {
-            var vehicleModel = _db.Vehicle.FirstOrDefault(x => x.VehicleId == id);
-            if (vehicleModel != null)
-            {
-                vehicleModel.VehicleId = id;
-                vehicleModel.VehicleName = model.VehicleName;
-                vehicleModel.VIN_Number = model.VIN_Number;
-                vehicleModel.Engine = model.Engine;
-                vehicleModel.FuelCapacity = model.FuelCapacity;
-                vehicleModel.FuelReserveCapacity = model.FuelReserveCapacity;
-                vehicleModel.MileagePerLit = model.MileagePerLit;
-                vehicleModel.SeatCapacity = model.SeatCapacity;
-                vehicleModel.CreatedOn = model.CreatedOn;
-                vehicleModel.CreatedBy = model.CreatedBy;
-                vehicleModel.VehicleTypeId = model.VehicleTypeId;
-                vehicleModel.TransmissionId = model.TransmissionId;
-            }
-            else
+            var vehicleDetailsById = _db.vehicleDetails.FromSqlRaw($"spgetVehicleById {id}").ToList();
+            if (vehicleDetailsById.Count == 0)
             {
                 return null;
             }
-            _db.Update(vehicleModel);
-            _db.SaveChanges();
-            return vehicleModel;
-
+            else
+            {
+                return vehicleDetailsById;
+            }
 
 
         }
 
-        public VehicleColorMapping UpdateVehicleColorMapping(VehicleColorMapping model, int id)
+        public int UpdateVehicle(VehicleModel model, int id)
         {
-            var vehicleColorMappaping = _db.VehicleColorMapping.FirstOrDefault(x=>x.ColorMappingId== id);
-            if (vehicleColorMappaping != null)
-            {
-                vehicleColorMappaping.ColorMappingId = id;
-                vehicleColorMappaping.VehicleId = model.VehicleId;
-                vehicleColorMappaping.ColorId = model.ColorId;
-                vehicleColorMappaping.CreatedOn = model.CreatedOn;
-                vehicleColorMappaping.CreatedBy = model.CreatedBy;
-            }
-            else
-            {
-                return null;
-            }
-            _db.Update(vehicleColorMappaping);
-            _db.SaveChanges();
-            return vehicleColorMappaping;
+            //var vehicleModel = _db.Vehicle.FirstOrDefault(x => x.VehicleId == id);
+            //if (vehicleModel != null)
+            //{
+            //    vehicleModel.VehicleId = id;
+            //    vehicleModel.VehicleName = model.VehicleName;
+            //    vehicleModel.VIN_Number = model.VIN_Number;
+            //    vehicleModel.Engine = model.Engine;
+            //    vehicleModel.FuelCapacity = model.FuelCapacity;
+            //    vehicleModel.FuelReserveCapacity = model.FuelReserveCapacity;
+            //    vehicleModel.MileagePerLit = model.MileagePerLit;
+            //    vehicleModel.SeatCapacity = model.SeatCapacity;
+            //    vehicleModel.CreatedOn = model.CreatedOn;
+            //    vehicleModel.CreatedBy = model.CreatedBy;
+            //    vehicleModel.VehicleTypeName = model.VehicleTypeName;
+            //    vehicleModel.TransmissionName = model.TransmissionName;
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+            //_db.Update(vehicleModel);
+            //_db.SaveChanges();
+            //return vehicleModel;
+            var updatedVehicle = _db.Database.ExecuteSqlRaw($"spUpdateVehicleDetails @Id='{id}',@VehicleName='{model.VehicleName}'," +
+                $"@VIN_Number='{model.VIN_Number}',@Engine='{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
+                $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'," +
+                $"@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}'");
+
+            return updatedVehicle;
+        }
+
+        public int UpdateVehicleColorMapping(VehicleColorMapping model, int id)
+        {
+            var updatedVehicleColorMapping = _db.Database.ExecuteSqlRaw($"spUpdateVehicleColorMappingDetails @Id='{id}',@VehicleName='{model.VehicleName}',@ColorName='{model.ColorName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
+
+            //var vehicleColorMappaping = _db.VehicleColorMapping.FirstOrDefault(x => x.ColorMappingId == id);
+            //if (vehicleColorMappaping != null)
+            //{
+            //    vehicleColorMappaping.ColorMappingId = id;
+            //    vehicleColorMappaping.VehicleName = model.VehicleName;
+            //    vehicleColorMappaping.ColorName = model.ColorName;
+            //    vehicleColorMappaping.CreatedOn = model.CreatedOn;
+            //    vehicleColorMappaping.CreatedBy = model.CreatedBy;
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+            //_db.Update(vehicleColorMappaping);
+            //_db.SaveChanges();
+            //return vehicleColorMappaping;
+            return updatedVehicleColorMapping;
         }
     }
 }

@@ -14,10 +14,10 @@ namespace BusinessLL.BusinessLogic
         List<VehicleDetailsDTO> GetVehicleDetailsById(int id);
         List<VehicleDetailsDTO> GetVehicleDetailsByChassisNumber(string ChassisNumber);
         List<VehicleDetailsDTO> GetVehicleDetails();
-        VehicleModelDTO CreateVehicle(VehicleModelDTO model);
-        VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id);
-        VehicleColorMappingDTO CreateVehicleMapping(VehicleColorMappingDTO model);
-        VehicleColorMappingDTO UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id);
+        int CreateVehicle(VehicleModelDTO model);
+        int UpdateVehicle(VehicleModelDTO model, int id);
+        int CreateVehicleMapping(VehicleColorMappingDTO model);
+        int UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id);
         string DeleteVehicleDetails(int id);
 
     } 

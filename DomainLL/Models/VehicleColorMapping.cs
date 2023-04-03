@@ -11,8 +11,8 @@ namespace DomainLL.Models
     {
         [Key]
         public int ColorMappingId { get; set; }
-        public int VehicleId { get; set; }
-        public byte ColorId { get; set; }
+        public string VehicleName { get; set; }
+        public string ColorName { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
     }

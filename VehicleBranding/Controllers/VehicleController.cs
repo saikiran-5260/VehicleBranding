@@ -7,6 +7,7 @@ using System.Collections.Generic;
 namespace VehicleBranding.Controllers
 {
     [ApiController]
+    [Route("[Controller]")]
     public class VehicleController : Controller
     {
         private readonly IVehicleService _VS;
@@ -18,6 +19,7 @@ namespace VehicleBranding.Controllers
         [Route("GetDeatilsOfVehicles")]
         public ActionResult<List<VehicleDetailsDTO>> GetDeatilsOfVehicles()
         {
+            //calling Ivehicle service interface
             var list = _VS.GetVehicleDetails();
             return Ok(list);
         }
@@ -37,34 +39,34 @@ namespace VehicleBranding.Controllers
         }
         [HttpPost]
         [Route("PostVehicleModel")]
-        public ActionResult<VehicleModelDTO> PostVehicleModel(VehicleModelDTO modelDTO)
+        public ActionResult<int> PostVehicleModel(VehicleModelDTO modelDTO)
         {
-            var postVehicle = _VS.CreateVehicle(modelDTO);
+            int postVehicle = _VS.CreateVehicle(modelDTO);
             return Ok(postVehicle);
         }
         [HttpPut]
-        [Route("PutVehicle")]
-        public ActionResult<VehicleModelDTO> PutVehicle(VehicleModelDTO modelDTO,int id)
+        [Route("PutVehicle/{id:int}")]
+        public ActionResult<int> PutVehicle(VehicleModelDTO modelDTO,int id)
         {
             var putVehicle = _VS.UpdateVehicle(modelDTO,id);
             return Ok(putVehicle);
         }
         [HttpPost]
         [Route("PostVehicleColorMapping")]
-        public ActionResult<VehicleColorMappingDTO> PostVehicleColorMapping(VehicleColorMappingDTO modelDTO)
+        public ActionResult<int> PostVehicleColorMapping(VehicleColorMappingDTO modelDTO)
         {
-            var postVehicle = _VS.CreateVehicleMapping(modelDTO);
+            int postVehicle = _VS.CreateVehicleMapping(modelDTO);
             return Ok(postVehicle);
         }
         [HttpPut]
-        [Route("PutVehicleColorMapping")]
-        public ActionResult<VehicleColorMappingDTO> PutVehicleColorMapping(VehicleColorMappingDTO modelDTO, int id)
+        [Route("PutVehicleColorMapping/{id:int}")]
+        public ActionResult<int> PutVehicleColorMapping(VehicleColorMappingDTO modelDTO, int id)
         {
             var putVehicle = _VS.UpdateVehicleColorMapping(modelDTO, id);
             return Ok(putVehicle);
         }
         [HttpDelete]
-        [Route("DeleteVehicle")]
+        [Route("DeleteVehicle/{id:int}")]
         public ActionResult<string> DeleteVehicle(int id)
         {
             var deleteVehicle = _VS.DeleteVehicleDetails(id);

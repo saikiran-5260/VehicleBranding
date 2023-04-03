@@ -12,10 +12,10 @@ namespace DomainLL.DomainLayer
         List<VehicleDetails> GetVehicleDetailsById(int id);
         List<VehicleDetails> GetVehicleDetailsByChassisNumber(string ChassisNumber);
         List<VehicleDetails> GetVehicleDetails();
-        VehicleModel CreateVehicle(VehicleModel model);
-        VehicleModel UpdateVehicle(VehicleModel model,int id);
-        VehicleColorMapping CreateVehicleMapping (VehicleColorMapping model);
-        VehicleColorMapping UpdateVehicleColorMapping (VehicleColorMapping model,int id);
+        int CreateVehicle(VehicleModel model);
+        int UpdateVehicle(VehicleModel model,int id);
+        int CreateVehicleMapping(VehicleColorMapping model);
+        int UpdateVehicleColorMapping(VehicleColorMapping model,int id);
         string DeleteVehicleDetails(int id);
     }
 }
