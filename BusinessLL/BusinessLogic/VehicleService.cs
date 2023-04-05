@@ -20,7 +20,7 @@ namespace BusinessLL.BusinessLogic
             _mapper = mapper;
         }
 
-        public int CreateVehicle(VehicleModelDTO model)
+        public string CreateVehicle(VehicleModelDTO model)
         {
             var vehicle = new VehicleModelDTO()
             {
@@ -38,7 +38,7 @@ namespace BusinessLL.BusinessLogic
                 CreatedBy= model.CreatedBy,
             };
             var newVehicle = _mapper.Map<VehicleModel>(vehicle);
-            int createdVehicle = _VR.CreateVehicle(newVehicle);
+            string createdVehicle = _VR.CreateVehicle(newVehicle);
             return createdVehicle;
         }
 

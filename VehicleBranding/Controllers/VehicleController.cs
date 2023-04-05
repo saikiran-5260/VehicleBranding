@@ -39,9 +39,9 @@ namespace VehicleBranding.Controllers
         }
         [HttpPost]
         [Route("PostVehicleModel")]
-        public ActionResult<int> PostVehicleModel(VehicleModelDTO modelDTO)
+        public ActionResult<string> PostVehicleModel(VehicleModelDTO modelDTO)
         {
-            int postVehicle = _VS.CreateVehicle(modelDTO);
+            string postVehicle = _VS.CreateVehicle(modelDTO);
             return Ok(postVehicle);
         }
         [HttpPut]

@@ -12,7 +12,7 @@ namespace DomainLL.DomainLayer
         List<VehicleDetails> GetVehicleDetailsById(int id);
         List<VehicleDetails> GetVehicleDetailsByChassisNumber(string ChassisNumber);
         List<VehicleDetails> GetVehicleDetails();
-        int CreateVehicle(VehicleModel model);
+        string CreateVehicle(VehicleModel model);
         int UpdateVehicle(VehicleModel model,int id);
         int CreateVehicleMapping(VehicleColorMapping model);
         int UpdateVehicleColorMapping(VehicleColorMapping model,int id);

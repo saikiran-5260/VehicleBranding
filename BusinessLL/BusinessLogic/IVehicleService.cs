@@ -14,7 +14,7 @@ namespace BusinessLL.BusinessLogic
         List<VehicleDetailsDTO> GetVehicleDetailsById(int id);
         List<VehicleDetailsDTO> GetVehicleDetailsByChassisNumber(string ChassisNumber);
         List<VehicleDetailsDTO> GetVehicleDetails();
-        int CreateVehicle(VehicleModelDTO model);
+        string CreateVehicle(VehicleModelDTO model);
         int UpdateVehicle(VehicleModelDTO model, int id);
         int CreateVehicleMapping(VehicleColorMappingDTO model);
         int UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id);

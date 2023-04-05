@@ -1,8 +1,12 @@
 ﻿using DomainLL.Data;
 using DomainLL.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +16,51 @@ namespace DomainLL.DomainLayer
     public class VehicleRepository : IVehicleRepository
     {
         private readonly ApplicationDbContext _db;
-        public VehicleRepository(ApplicationDbContext db)
+        private readonly IConfiguration _configuration;
+        //private readonly SqlConnection _conn;
+        //private readonly string _CS = "\"server=(LocalDb)\\\\AL5260;database = Vehicles ;TrustServerCertificate = True;";
+        public VehicleRepository(ApplicationDbContext db ,IConfiguration configuration/*SqlConnection conn, string CS*/)
         {
             _db = db;
+            //_conn = conn;
+            //_CS = CS;
+            _configuration= configuration;
         }
 
-        public int CreateVehicle(VehicleModel model)
+        public string CreateVehicle(VehicleModel model)
         {
-            int createVehicle = _db.Database.ExecuteSqlRaw($"spPostVehicleDetails @VehicleName='{model.VehicleName}',@VIN_Number='{model.VIN_Number}',@Engine= '{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
-                $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
-            return createVehicle;
-                     
+            //int createVehicle = _db.Database.ExecuteSqlRaw($"spPostVehicleDetails @VehicleName='{model.VehicleName}',@VIN_Number='{model.VIN_Number}',@Engine= '{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
+            //    $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
+            //return createVehicle;
+            int i;
+            using(SqlConnection con = new SqlConnection(_configuration.GetConnectionString("VehicelConnection"))) 
+            {
+                SqlCommand sqlCommand = new SqlCommand("spPostVehicleDetails", con);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@VehicleName", model.VehicleName);
+                sqlCommand.Parameters.AddWithValue("@VIN_Number", model.VIN_Number);
+                sqlCommand.Parameters.AddWithValue("@Engine", model.Engine);
+                sqlCommand.Parameters.AddWithValue("@FuelCapacity", model.FuelCapacity);
+                sqlCommand.Parameters.AddWithValue("@FuelReserveCapacity", model.FuelReserveCapacity);
+                sqlCommand.Parameters.AddWithValue("@MileagePerLit", model.MileagePerLit);
+                sqlCommand.Parameters.AddWithValue("@SeatCapacity", model.SeatCapacity);
+                sqlCommand.Parameters.AddWithValue("@VehicleTypeName", model.VehicleTypeName);
+                sqlCommand.Parameters.AddWithValue("@TransmissionName", model.TransmissionName);
+                sqlCommand.Parameters.AddWithValue("@CreatedOn", model.CreatedOn);
+                sqlCommand.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                con.Open();
+                i = sqlCommand.ExecuteNonQuery();
+            };
+            if(i == -1)
+            {
+                return "Data Inserted Successfully";
+
+            }
+            else
+            {
+                return "Error occured during insertion";
+            }
+           
         }
 
         public int CreateVehicleMapping(VehicleColorMapping model)
@@ -92,6 +130,13 @@ namespace DomainLL.DomainLayer
 
         public int UpdateVehicle(VehicleModel model, int id)
         {
+            
+            var updatedVehicle = _db.Database.ExecuteSqlRaw($"spUpdateVehicleDetails @Id='{id}',@VehicleName='{model.VehicleName}'," +
+                $"@VIN_Number='{model.VIN_Number}',@Engine='{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
+                $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'," +
+                $"@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}'");
+
+            return updatedVehicle;
             //var vehicleModel = _db.Vehicle.FirstOrDefault(x => x.VehicleId == id);
             //if (vehicleModel != null)
             //{
@@ -115,18 +160,14 @@ namespace DomainLL.DomainLayer
             //_db.Update(vehicleModel);
             //_db.SaveChanges();
             //return vehicleModel;
-            var updatedVehicle = _db.Database.ExecuteSqlRaw($"spUpdateVehicleDetails @Id='{id}',@VehicleName='{model.VehicleName}'," +
-                $"@VIN_Number='{model.VIN_Number}',@Engine='{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
-                $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'," +
-                $"@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}'");
-
-            return updatedVehicle;
         }
 
         public int UpdateVehicleColorMapping(VehicleColorMapping model, int id)
         {
             var updatedVehicleColorMapping = _db.Database.ExecuteSqlRaw($"spUpdateVehicleColorMappingDetails @Id='{id}',@VehicleName='{model.VehicleName}',@ColorName='{model.ColorName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
 
+           
+            return updatedVehicleColorMapping;
             //var vehicleColorMappaping = _db.VehicleColorMapping.FirstOrDefault(x => x.ColorMappingId == id);
             //if (vehicleColorMappaping != null)
             //{
@@ -143,7 +184,7 @@ namespace DomainLL.DomainLayer
             //_db.Update(vehicleColorMappaping);
             //_db.SaveChanges();
             //return vehicleColorMappaping;
-            return updatedVehicleColorMapping;
+
         }
     }
 }
