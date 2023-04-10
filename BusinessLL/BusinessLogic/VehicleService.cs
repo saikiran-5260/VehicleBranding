@@ -20,7 +20,7 @@ namespace BusinessLL.BusinessLogic
             _mapper = mapper;
         }
 
-        public string CreateVehicle(VehicleModelDTO model)
+        public VehicleModelDTO CreateVehicle(VehicleModelDTO model)
         {
             var vehicle = new VehicleModelDTO()
             {
@@ -38,11 +38,11 @@ namespace BusinessLL.BusinessLogic
                 CreatedBy= model.CreatedBy,
             };
             var newVehicle = _mapper.Map<VehicleModel>(vehicle);
-            string createdVehicle = _VR.CreateVehicle(newVehicle);
-            return createdVehicle;
+            var createdVehicle = _VR.CreateVehicle(newVehicle);
+            return _mapper.Map<VehicleModelDTO>(createdVehicle);
         }
 
-        public int CreateVehicleMapping(VehicleColorMappingDTO model)
+        public VehicleColorMappingDTO CreateVehicleMapping(VehicleColorMappingDTO model)
         {
             var vehicleColorMapping = new VehicleColorMappingDTO()
             {
@@ -53,8 +53,8 @@ namespace BusinessLL.BusinessLogic
             };
 
             VehicleColorMapping newVehicleColorMapping = _mapper.Map<VehicleColorMapping>(model);
-            int createdVehicleColorMap = _VR.CreateVehicleMapping(newVehicleColorMapping);
-            return createdVehicleColorMap;
+            var createdVehicleColorMap = _VR.CreateVehicleMapping(newVehicleColorMapping);
+            return _mapper.Map<VehicleColorMappingDTO>(createdVehicleColorMap);
         }
 
         public string DeleteVehicleDetails(int id)
@@ -81,7 +81,7 @@ namespace BusinessLL.BusinessLogic
             return (_mapper.Map<List<VehicleDetailsDTO>>(vehicleById));
         }
 
-        public int UpdateVehicle(VehicleModelDTO model, int id)
+        public VehicleModelDTO UpdateVehicle(VehicleModelDTO model, int id)
         {
             
             //var newVehicleDTO = new VehicleModelDTO()
@@ -99,12 +99,12 @@ namespace BusinessLL.BusinessLogic
             //    CreatedBy = (model.CreatedBy)
             //};
             var Vehicle = (_mapper.Map<VehicleModel>(model));
-            int updateVehicle = _VR.UpdateVehicle(Vehicle,id);
-            return (updateVehicle);
+            var updateVehicle = _VR.UpdateVehicle(Vehicle,id);
+            return _mapper.Map<VehicleModelDTO>(updateVehicle);
 
         }
 
-        public int UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id)
+        public VehicleColorMappingDTO UpdateVehicleColorMapping(VehicleColorMappingDTO model, int id)
         {
 
             //var vehicleColorMappingDTO = new VehicleColorMappingDTO()
@@ -117,7 +117,7 @@ namespace BusinessLL.BusinessLogic
             //};
             var mapperVehicle = (_mapper.Map<VehicleColorMapping>(model));
             var updateVehicleColorMap = _VR.UpdateVehicleColorMapping(mapperVehicle,id);
-            return updateVehicleColorMap;
+            return _mapper.Map<VehicleColorMappingDTO>(updateVehicleColorMap);
         }
     }
 }

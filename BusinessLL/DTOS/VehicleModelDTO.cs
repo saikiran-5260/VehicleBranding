@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BusinessLL.DTOS
 {
     public class VehicleModelDTO
     {
-        //public int VehicleId { get; set; }
+        [JsonIgnore]
+        public int VehicleId { get; set; }
         public string VehicleName { get; set; }
         public string VIN_Number { get; set; }
         public string Engine { get; set; }

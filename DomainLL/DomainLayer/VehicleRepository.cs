@@ -15,7 +15,7 @@ namespace DomainLL.DomainLayer
 {
     public class VehicleRepository : IVehicleRepository
     {
-        private readonly ApplicationDbContext _db;
+        private ApplicationDbContext _db;
         private readonly IConfiguration _configuration;
         //private readonly SqlConnection _conn;
         //private readonly string _CS = "\"server=(LocalDb)\\\\AL5260;database = Vehicles ;TrustServerCertificate = True;";
@@ -27,7 +27,7 @@ namespace DomainLL.DomainLayer
             _configuration= configuration;
         }
 
-        public string CreateVehicle(VehicleModel model)
+        public VehicleModel CreateVehicle(VehicleModel model)
         {
             //int createVehicle = _db.Database.ExecuteSqlRaw($"spPostVehicleDetails @VehicleName='{model.VehicleName}',@VIN_Number='{model.VIN_Number}',@Engine= '{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
             //    $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
@@ -53,21 +53,25 @@ namespace DomainLL.DomainLayer
             };
             if(i == -1)
             {
-                return "Data Inserted Successfully";
+                return model;
 
             }
             else
             {
-                return "Error occured during insertion";
+                return null;
             }
            
         }
 
-        public int CreateVehicleMapping(VehicleColorMapping model)
+        public VehicleColorMapping CreateVehicleMapping(VehicleColorMapping model)
         {
-
-            int vehicleColorMapping = _db.Database.ExecuteSqlRaw($"spPostVehicleColorMappingDetails @VehicleName='{model.VehicleName}',@ColorName='{model.ColorName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
-            return vehicleColorMapping;
+            
+            var vehicleColorMapping = _db.Database.ExecuteSqlRaw($"spPostVehicleColorMappingDetails @VehicleName='{model.VehicleName}',@ColorName='{model.ColorName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
+            if (vehicleColorMapping == -1)
+            {
+                return model;
+            }
+            return null;
         }
 
         public string DeleteVehicleDetails(int id)
@@ -82,9 +86,7 @@ namespace DomainLL.DomainLayer
             {
                 return "not found";
             }
-            return "deleted Successfully";
-           
-            
+            return "deleted Successfully";   
         }
 
         public List<VehicleDetails> GetVehicleDetails()
@@ -128,15 +130,19 @@ namespace DomainLL.DomainLayer
 
         }
 
-        public int UpdateVehicle(VehicleModel model, int id)
+        public VehicleModel UpdateVehicle(VehicleModel model, int id)
         {
             
             var updatedVehicle = _db.Database.ExecuteSqlRaw($"spUpdateVehicleDetails @Id='{id}',@VehicleName='{model.VehicleName}'," +
                 $"@VIN_Number='{model.VIN_Number}',@Engine='{model.Engine}',@FuelCapacity='{model.FuelCapacity}',@FuelReserveCapacity='{model.FuelReserveCapacity}'," +
                 $"@MileagePerLit='{model.MileagePerLit}',@SeatCapacity='{model.SeatCapacity}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'," +
                 $"@VehicleTypeName='{model.VehicleTypeName}',@TransmissionName='{model.TransmissionName}'");
-
-            return updatedVehicle;
+            if(updatedVehicle == -1)
+            {
+                return model;
+            }
+            return null;
+            
             //var vehicleModel = _db.Vehicle.FirstOrDefault(x => x.VehicleId == id);
             //if (vehicleModel != null)
             //{
@@ -162,12 +168,16 @@ namespace DomainLL.DomainLayer
             //return vehicleModel;
         }
 
-        public int UpdateVehicleColorMapping(VehicleColorMapping model, int id)
+        public VehicleColorMapping UpdateVehicleColorMapping(VehicleColorMapping model, int id)
         {
             var updatedVehicleColorMapping = _db.Database.ExecuteSqlRaw($"spUpdateVehicleColorMappingDetails @Id='{id}',@VehicleName='{model.VehicleName}',@ColorName='{model.ColorName}',@CreatedOn='{model.CreatedOn}',@CreatedBy='{model.CreatedBy}'");
 
            
-            return updatedVehicleColorMapping;
+            if(updatedVehicleColorMapping == -1 )
+            {
+                return model;
+            }
+            return null;
             //var vehicleColorMappaping = _db.VehicleColorMapping.FirstOrDefault(x => x.ColorMappingId == id);
             //if (vehicleColorMappaping != null)
             //{

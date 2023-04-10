@@ -39,28 +39,28 @@ namespace VehicleBranding.Controllers
         }
         [HttpPost]
         [Route("PostVehicleModel")]
-        public ActionResult<string> PostVehicleModel(VehicleModelDTO modelDTO)
+        public ActionResult<VehicleModelDTO> PostVehicleModel(VehicleModelDTO modelDTO)
         {
-            string postVehicle = _VS.CreateVehicle(modelDTO);
+            var postVehicle = _VS.CreateVehicle(modelDTO);
             return Ok(postVehicle);
         }
         [HttpPut]
         [Route("PutVehicle/{id:int}")]
-        public ActionResult<int> PutVehicle(VehicleModelDTO modelDTO,int id)
+        public ActionResult<VehicleModelDTO> PutVehicle(VehicleModelDTO modelDTO,int id)
         {
             var putVehicle = _VS.UpdateVehicle(modelDTO,id);
             return Ok(putVehicle);
         }
         [HttpPost]
         [Route("PostVehicleColorMapping")]
-        public ActionResult<int> PostVehicleColorMapping(VehicleColorMappingDTO modelDTO)
+        public ActionResult<VehicleColorMappingDTO> PostVehicleColorMapping(VehicleColorMappingDTO modelDTO)
         {
-            int postVehicle = _VS.CreateVehicleMapping(modelDTO);
+            var postVehicle = _VS.CreateVehicleMapping(modelDTO);
             return Ok(postVehicle);
         }
         [HttpPut]
         [Route("PutVehicleColorMapping/{id:int}")]
-        public ActionResult<int> PutVehicleColorMapping(VehicleColorMappingDTO modelDTO, int id)
+        public ActionResult<VehicleColorMappingDTO> PutVehicleColorMapping(VehicleColorMappingDTO modelDTO, int id)
         {
             var putVehicle = _VS.UpdateVehicleColorMapping(modelDTO, id);
             return Ok(putVehicle);
@@ -72,8 +72,5 @@ namespace VehicleBranding.Controllers
             var deleteVehicle = _VS.DeleteVehicleDetails(id);
             return Ok(deleteVehicle);
         }
-
-
-
     }
 }
