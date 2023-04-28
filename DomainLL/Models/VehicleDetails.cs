@@ -12,7 +12,7 @@ namespace DomainLL.Models
         [Key]
         public int VehicleId { get; set; }
         public string VehicleName { get; set; }
-        public string Chassis_Number { get; set; }
+        public string VIN_Number { get; set; }
         public string Engine { get; set; }
         public int FuelCapacity { get; set; }
         public int FuelReserveCapacity { get; set; }

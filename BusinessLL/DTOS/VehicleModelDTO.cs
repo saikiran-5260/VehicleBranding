@@ -20,7 +20,8 @@ namespace BusinessLL.DTOS
         public int SeatCapacity { get; set; }
         public string VehicleTypeName { get; set; }
         public string TransmissionName { get; set; }
-        public DateTime CreatedOn { get; set; }
+       
+        public string CreatedOn { get; set; }
         public string CreatedBy { get; set; }
     }
 }

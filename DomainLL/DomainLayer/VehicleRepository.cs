@@ -60,7 +60,7 @@ namespace DomainLL.DomainLayer
             {
                 return null;
             }
-           
+            
         }
 
         public VehicleColorMapping CreateVehicleMapping(VehicleColorMapping model)
@@ -76,17 +76,16 @@ namespace DomainLL.DomainLayer
 
         public string DeleteVehicleDetails(int id)
         {
-            var deleteVehicle = _db.Vehicle.FirstOrDefault(x=>x.VehicleId== id);
-            if (deleteVehicle != null)
+            var deleteVehicle = _db.Database.ExecuteSqlRaw($"spDeleteVehicle {id}");
+            if (deleteVehicle ==-1)
             {
-                _db.Vehicle.Remove(deleteVehicle);
-                _db.SaveChanges();
+                return "deleted Successfully";
             }
             else
             {
                 return "not found";
             }
-            return "deleted Successfully";   
+              
         }
 
         public List<VehicleDetails> GetVehicleDetails()
