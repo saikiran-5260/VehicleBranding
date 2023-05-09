@@ -14,6 +14,11 @@ namespace BusinessLL.BusinessLogic
     {
         private readonly IVehicleRepository _VR;
         private readonly IMapper _mapper;
+
+        public VehicleService()
+        {
+        }
+
         public VehicleService(IVehicleRepository vR, IMapper mapper)
         {
             _VR = vR;
